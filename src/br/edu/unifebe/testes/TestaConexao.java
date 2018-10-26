@@ -10,6 +10,9 @@ public class TestaConexao {
 	public static void main(String[] args) {
 		
 		try {
+			
+			//Teste Singleton...
+			
 			Connection conexao1 = Conexao.getConnection();
 			System.out.println("Conectado com Singleton....");
 			
@@ -17,6 +20,7 @@ public class TestaConexao {
 			
 			Connection conexao2 = Conexao.getConnection();
 			System.out.println("Conexao2: "+ conexao2.toString());
+		
 			
 		} catch (SQLException e) {
 			System.out.println("Erro: "+ e.getMessage());
