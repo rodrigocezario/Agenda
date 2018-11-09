@@ -2,7 +2,9 @@ package br.edu.unifebe.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.unifebe.jdbc.Conexao;
@@ -32,8 +34,16 @@ public class UsuarioDao implements IDao<Usuario> {
 
 	@Override
 	public void alterar(Usuario e) throws SQLException {
-		// TODO Auto-generated method stub
+		String sql = "update Usuario set UserNome = ?, UserLogin = ?, "
+				+ "UserEmail = ?, UserSenha = ? where UserID = ?";
+		PreparedStatement prmt = this.conexao.prepareStatement(sql);
+		prmt.setString(1, e.getNome());
+		prmt.setString(2, e.getLogin());
+		prmt.setString(3, e.getEmail());
+		prmt.setString(4, e.getSenha());
+		prmt.setInt(5, e.getId());
 		
+		prmt.execute();
 	}
 
 	@Override
@@ -44,8 +54,29 @@ public class UsuarioDao implements IDao<Usuario> {
 
 	@Override
 	public List<Usuario> listar() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select * from Usuario";
+		PreparedStatement prmt = this.conexao.prepareStatement(sql);
+		ResultSet rs = prmt.executeQuery();
+		
+		List<Usuario> lista = new ArrayList<>();
+		
+		while(rs.next()) {
+			//vou adicionar na lista (Usuario)...
+			Usuario usuario = new Usuario();
+			
+			usuario.setId(rs.getInt("UserID"));
+			usuario.setNome(rs.getString("UserNome"));
+			usuario.setEmail(rs.getString("UserEmail"));
+			usuario.setLogin(rs.getString("UserLogin"));
+			usuario.setSenha(rs.getString("UserSenha"));
+			
+			lista.add(usuario);
+			
+		}
+		rs.close(); //liberar da memoria
+		prmt.close();
+		
+		return lista;
 	}
 
 	@Override
@@ -53,5 +84,10 @@ public class UsuarioDao implements IDao<Usuario> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Usuario logar(String login, String senha) {
+		return null;
+	}
+	
 
 }
