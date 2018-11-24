@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.unifebe.exceptions.UsuarioException;
 import br.edu.unifebe.jdbc.Conexao;
 import br.edu.unifebe.jdbc.IDao;
 import br.edu.unifebe.modelo.Usuario;
@@ -81,12 +82,54 @@ public class UsuarioDao implements IDao<Usuario> {
 
 	@Override
 	public Usuario detalhe(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "Select * from Usuario where UserID = ?";
+		PreparedStatement prmt = this.conexao.prepareStatement(sql);
+		prmt.setInt(1, id);
+		ResultSet rs = prmt.executeQuery();
+		
+		Usuario usuario = null;
+		
+		if (rs.next()) {
+			
+			usuario = new Usuario();
+			
+			usuario.setId(rs.getInt("UserID"));
+			usuario.setNome(rs.getString("UserNome"));
+			usuario.setEmail(rs.getString("UserEmail"));
+			usuario.setLogin(rs.getString("UserLogin"));
+			usuario.setSenha(rs.getString("UserSenha"));
+			
+		} else {
+			throw new UsuarioException("Usuario não encontrado");
+		}
+		
+		return usuario;
 	}
 	
-	public Usuario logar(String login, String senha) {
-		return null;
+	public Usuario logar(String login, String senha) throws SQLException {
+		String sql = "Select * from Usuario where UserLogin = ? "
+				+ "and UserSenha = ?";
+		PreparedStatement prmt = this.conexao.prepareStatement(sql);
+		prmt.setString(1, login);
+		prmt.setString(2, senha);
+		
+		ResultSet rs = prmt.executeQuery();
+		
+		Usuario usuario = null;
+		
+		if (rs.next()) {
+			usuario = new Usuario();
+		
+			usuario.setId(rs.getInt("UserID"));
+			usuario.setNome(rs.getString("UserNome"));
+			usuario.setEmail(rs.getString("UserEmail"));
+			usuario.setLogin(rs.getString("UserLogin"));
+			usuario.setSenha(rs.getString("UserSenha"));
+		} else {
+			throw new UsuarioException("Login ou senha incorreta!");
+		}
+		
+		return usuario;
 	}
 	
 
