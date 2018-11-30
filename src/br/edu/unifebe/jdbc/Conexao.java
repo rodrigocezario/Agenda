@@ -22,6 +22,7 @@ public class Conexao {
 		if (conexao == null) {
 			//cria a conexao
 			DriverManager.registerDriver(new org.sqlite.JDBC());
+			//conexao = DriverManager.getConnection("jdbc:sqlite::resource:agenda.db"); //se for empacotar o jar... adicionar o arquivo de dados na pasta src
 			conexao = DriverManager.getConnection("jdbc:sqlite:agenda.db");
 		}
 		
