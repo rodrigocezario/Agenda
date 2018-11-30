@@ -11,6 +11,13 @@ public class Contato {
 	private List<Email> emails;
 	private List<Telefone> telefones;
 	
+	//solução para o ContatoDao.detalhe(int id);
+	public Contato(){
+		this.emails = new ArrayList<>();
+		this.telefones= new ArrayList<>();		
+	}
+	
+	
 	public Contato(Usuario usuario) {
 		this.usuario = usuario;
 		this.emails = new ArrayList<>();
