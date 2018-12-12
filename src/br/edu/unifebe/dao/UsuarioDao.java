@@ -125,8 +125,9 @@ public class UsuarioDao implements IDao<Usuario> {
 			usuario.setEmail(rs.getString("UserEmail"));
 			usuario.setLogin(rs.getString("UserLogin"));
 			usuario.setSenha(rs.getString("UserSenha"));
+			
 		} else {
-			throw new UsuarioException("Login ou senha incorreta!");
+			throw new UsuarioException("Login ou senha incorreto!");
 		}
 		
 		return usuario;
